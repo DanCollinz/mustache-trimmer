@@ -245,6 +245,8 @@ class Mustache
       locals = self.locals
       @locals.pop
 
+      name = name.split('/')[-1] if name.is_a?(String)
+
       @partials[name] = <<-JS
         #{name} = function #{name}(stack, out) {
           #{locals.strip}
