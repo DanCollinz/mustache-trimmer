@@ -232,7 +232,7 @@ class Mustache
 
         source   = Mustache.partial(name).to_s.gsub(/^/, indentation)
         template = Mustache.templateify(source)
-
+        name = name.split('/')[-1]
         compile_closure!(name, template.tokens)
       end
 
@@ -244,8 +244,6 @@ class Mustache
       code = compile!(tokens)
       locals = self.locals
       @locals.pop
-
-      name = name.split('/')[-1] if name.is_a?(String)
 
       @partials[name] = <<-JS
         #{name} = function #{name}(stack, out) {
