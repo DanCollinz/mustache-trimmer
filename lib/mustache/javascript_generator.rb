@@ -240,7 +240,7 @@ class Mustache
         compile_closure!(name, template.tokens)
       end
 
-      "#{name}(stack, out); console.log(#{name});\n"
+      "#{name}(stack, out);\n"
     end
 
     def compile_closure!(name, tokens)
