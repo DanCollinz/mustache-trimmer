@@ -232,11 +232,15 @@ class Mustache
 
         source   = Mustache.partial(name).to_s.gsub(/^/, indentation)
         template = Mustache.templateify(source)
-
+        
+        # Logger.new(STDOUT).debug(">>> #{name}")
+        # Rails.logger.error { ">>> #{name}" }
+        name = name.split('/')[-1] # if name.is_a?(String)
+        
         compile_closure!(name, template.tokens)
       end
 
-      "#{name}(stack, out);\n"
+      "#{name}(stack, out); console.log(#{name});\n"
     end
 
     def compile_closure!(name, tokens)
@@ -244,8 +248,6 @@ class Mustache
       code = compile!(tokens)
       locals = self.locals
       @locals.pop
-
-      name = name.split('/')[-1] if name.is_a?(String)
 
       @partials[name] = <<-JS
         #{name} = function #{name}(stack, out) {
